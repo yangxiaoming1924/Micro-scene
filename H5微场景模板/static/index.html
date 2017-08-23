@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="css/animate.css"/>
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css"/>
+    <link rel="stylesheet" type="text/css" href="css/qtx.css"/>
+</head>
+<body>
+
+<!--loading start -->
+<div id="fpLoading">
+    <div id='fpWaveWrap'>
+        <div class='fpWave fpWave1'></div>
+        <div class='fpWave fpWave2'></div>
+        <div class='fpWave fpWave3'></div>
+        <div class='fpLogo'><img src="images/qtx2.png"/></div>
+    </div>
+    <div id="fpLoadingTxt">
+        资源加载<span id="fpLoadingNum">0</span>%
+    </div>
+</div>
+<!--loading end -->
+
+<!--BGM start -->
+<div id="fpMusic">
+    <audio src="mp3/WithanOrchid.mp3" preload="preload" loop id="fpMusicAudio"></audio>
+    <div id="fpMusicPlay">
+        <div id="fpMusicPlayBtn"></div>
+    </div>
+</div>
+<!--BGM end -->
+
+<!--main start -->
+<div id="fpLayout" style="display: none;">
+    <div class="section page1">
+        <h2 data-fp-delay="0.75s" data-fp-animate="bounceIn" data-fp-duration="1.2s">
+            这是第1屏，延迟0.75秒，动画为bounceIn，动画时间1.2s
+        </h2>
+        <img class="arrow pa myFadeInUp" src="images/zys_img0.png">
+    </div>
+    <div class="section page2">
+        <h2 data-fp-delay="0.45s" data-fp-animate="flipInY" data-fp-duration="1.5s">
+            这是第2屏，延迟0.45秒，动画为flipInY（Y轴旋转），动画时间1.5s
+        </h2>
+        <img class="arrow pa myFadeInUp" src="images/zys_img0.png">
+    </div>
+    <div class="section page3">
+        <h2 data-fp-delay="0.25s" data-fp-animate="swing" data-fp-duration="1s">
+            这是第3屏，延迟0.25秒，动画为swing，动画时间1s
+        </h2>
+        <img class="arrow pa myFadeInUp" src="images/zys_img0.png">
+    </div>
+</div>
+<!--main end -->
+
+
+
+<script src="js/jquery-1.7.2.js" ></script>
+<script type='text/javascript' src="js/jquery.fullPage.min.js"></script>
+<script type='text/javascript' src="js/qtx.js"></script>
+
+<script>
+    $(function(){
+        function audioAutoPlay(id) {
+            var audio = document.getElementById(id),
+                play = function () {
+                    audio.play();
+                    document.removeEventListener("touchstart", play, false);
+                };
+            audio.play();
+            document.addEventListener("WeixinJSBridgeReady", function () {
+                play();
+            }, false);
+            document.addEventListener('YixinJSBridgeReady', function () {
+                play();
+            }, false);
+            document.addEventListener("touchstart", play, false);
+        }
+        audioAutoPlay('fpMusicAudio');
+
+        function myfp(){
+            $('#fpLayout').fullpage({
+                anchors: ['page1', 'page2', 'page3'],
+                'navigation': false,
+                'navigationPosition': 'right',
+                afterRender:function(){
+                    fpRender();
+                },
+                afterLoad: function(anchorLink, index){
+
+                    fpLoad(index);
+
+                },
+                onLeave: function(index, direction){
+                    fpLeave(index);
+                }
+            });
+        }
+        fpLoading(myfp);
+
+    })
+</script>
+</body>
+
+</html>
